@@ -26,7 +26,11 @@ const handleChoice = (choice) => {
         case '1':
             rl.question("Nombre de manches maximum: ", (maxSet) => {
                 gameResult = playGame(maxSet)
-                console.log("Prêt pour une autre partie?")
+                
+                if(gameResult) {
+                    console.log("Prêt pour une autre partie?")
+                }
+                
                 showMenu();
             })
             break

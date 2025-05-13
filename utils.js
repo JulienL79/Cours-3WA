@@ -40,21 +40,30 @@ const playASet = () => {
 }
 
 export const playGame = (maxSet) => {
-    let firstPlayerWin = 0
-    let secondPlayerWin = 0
-
-    while (firstPlayerWin < maxSet && secondPlayerWin < maxSet) {
-        const setResult = playASet()
-        if(setResult === 0) {
-            continue
-        } else if (setResult === 1) {
-            firstPlayerWin++
-        } else if (setResult === 2) {
-            secondPlayerWin++
+    try {
+        if(isNaN(maxSet) || maxSet < 0) {
+            throw new Error ("Veuillez saisir un nombre de manche correct")
         }
-    }
 
-    console.log(`Le gagnant est le joueur ${firstPlayerWin == maxSet ? 1 : 2}`)
-    console.log(`Victoire de ${firstPlayerWin == maxSet ? firstPlayerWin : secondPlayerWin} à ${firstPlayerWin == maxSet ? secondPlayerWin : firstPlayerWin}`)
-    return {firstPlayerWin, secondPlayerWin}
+        let firstPlayerWin = 0
+        let secondPlayerWin = 0
+
+        while (firstPlayerWin < maxSet && secondPlayerWin < maxSet) {
+            const setResult = playASet()
+            if(setResult === 0) {
+                continue
+            } else if (setResult === 1) {
+                firstPlayerWin++
+            } else if (setResult === 2) {
+                secondPlayerWin++
+            }
+        }
+
+        console.log(`Le gagnant est le joueur ${firstPlayerWin == maxSet ? 1 : 2}`)
+        console.log(`Victoire de ${firstPlayerWin == maxSet ? firstPlayerWin : secondPlayerWin} à ${firstPlayerWin == maxSet ? secondPlayerWin : firstPlayerWin}`)
+        return {firstPlayerWin, secondPlayerWin}
+    } catch (err) {
+        console.error("Erreur dans le déroulement de la partie: ", err.message)
+    }
+    
 }
