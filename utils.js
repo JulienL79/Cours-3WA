@@ -1,10 +1,18 @@
-import { promises as fsAsync } from 'fs';
+import fs from 'node:fs';
+import dotenv from 'dotenv';
+
+dotenv.config()
+
+const MENTION_10TO12=process.env.MENTION_10TO12
+const MENTION_12TO14=process.env.MENTION_12TO14
+const MENTION_14TO16=process.env.MENTION_14TO16
+const MENTION_16TO20=process.env.MENTION_16TO20
 
 // === Fonctions ===
 
-export const readFile = async (filePath) => {
+export const readFile = (filePath) => {
     try {
-        const content = await fsAsync.readFile(filePath, 'utf-8')
+        const content = fs.readFileSync(filePath, 'utf-8')
         const data = JSON.parse(content)
 
         return data
@@ -13,10 +21,10 @@ export const readFile = async (filePath) => {
     }
 }
 
-export const writeFile = async (filePath, data) => {
+export const writeFile = (filePath, data) => {
     try {
         const jsonData = JSON.stringify(data, null, 2)
-        await fsAsync.writeFile(filePath, jsonData, 'utf-8');
+        fs.writeFileSync(filePath, jsonData, 'utf-8');
         console.log('Fichier mis à jour avec succès.');
     } catch (err) {
         console.error('Erreur lors de l\'écriture :', err.message);
@@ -88,6 +96,37 @@ export const findStudentAverageMarkUpTo = (students, mark) => {
     }
 }
 
+export const giveMention = (students) => {
+    try {
+        const updatedStudents = students.map(student => {
+            const average = student.notes.reduce((sum, note) => sum + note, 0) / student.notes.length;
+            if(average < 10) {
+                return student
+            } else if (average < 20) {
+                return {
+                    ...student,
+                    mention: 
+                        average < 12 ? 
+                            MENTION_10TO12
+                        : average < 14 ?
+                            MENTION_12TO14
+                            : average < 16 ?
+                                MENTION_14TO16
+                                :
+                                    MENTION_16TO20
+                }
+            } else {
+                throw new Error (`Erreur moyenne supérieur à 20 pour ${student.name}`)
+            }
+        })
+        console.table(updatedStudents)
+        return updatedStudents
+
+    } catch (err) {
+        console.error("Erreur lors de l'affectation des mentions: ", err.message)
+    }
+}
+
 export const addMarkToStudent = (students, name, mark) => {
     try {
 
@@ -109,7 +148,7 @@ export const addMarkToStudent = (students, name, mark) => {
             }
             return student
         })
-        console.log("Note correctement ajoutée")
+        console.log(`La note de ${mark} a correctement été ajoutée`)
         return updatedStudents
 
     } catch(err) {

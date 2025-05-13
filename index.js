@@ -1,4 +1,4 @@
-import { fetchNames, fetchStudent, readFile, writeFile, findStudentAverageMarkUpTo, addMarkToStudent } from './utils.js'
+import { fetchNames, fetchStudent, readFile, writeFile, findStudentAverageMarkUpTo, addMarkToStudent, giveMention } from './utils.js'
 import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
@@ -21,7 +21,8 @@ const showMenu = () => {
     console.log('2. Rechercher un élève par nom');
     console.log('3. Afficher les élèves ayant une moyenne supérieure à une note');
     console.log('4. Ajouter une note à un élève');
-    console.log('5. Quitter');
+    console.log('5. Affecter les mentions');
+    console.log('6. Quitter');
 
     rl.question('\nVotre choix : ', handleChoice);
 };
@@ -57,8 +58,8 @@ const handleChoice = (choice) => {
                     rl.question(`Note à ajouter à ${students[0].name}: `, (mark) => {
                         studentsData = addMarkToStudent(studentsData, students[0].name, mark)
                         writeFile(filePath, studentsData)
+                        showMenu();
                     })
-                    showMenu();
                 } else {
                     rl.question(`Quel élève choisissez-vous? (ex: 1)`, (index) => {
                         if (isNaN(index) || index < 0 || index >= students.length) {
@@ -67,8 +68,12 @@ const handleChoice = (choice) => {
                         }
 
                         rl.question(`Note à ajouter à ${students[index].name}: `, (mark) => {
-                            studentsData = addMarkToStudent(studentsData, students[index].name, mark)
-                            writeFile(filePath, studentsData)
+                            if (isNaN(mark) || mark < 0 || mark > 20) {
+                            console.log("Merci de choisir une valeur numérique entre 0 et 20");
+                            return showMenu();
+                            }
+
+                            studentsData = addMarkToStudent(studentsData, students[index].name, parseFloat(mark.trim()))
                             showMenu();
                         })
                     })
@@ -77,6 +82,12 @@ const handleChoice = (choice) => {
             break;
 
         case '5':
+            studentsData = giveMention(studentsData)
+            showMenu();
+            break;
+
+        case '6':
+            writeFile(filePath, studentsData)
             console.log("Au revoir !");
             rl.close();
             process.exit(0);

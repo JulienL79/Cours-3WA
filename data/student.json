@@ -6,7 +6,8 @@
       14,
       13
     ],
-    "address": "789 rue Ibn Sina, Casablanca"
+    "address": "789 rue Ibn Sina, Casablanca",
+    "mention": "assez bien"
   },
   {
     "name": "ANNA PETROVA",
@@ -15,7 +16,16 @@
       14,
       12
     ],
-    "address": "123 улица Тверская, Moscow"
+    "address": "123 улица Тверская, Moscow",
+    "mention": "assez bien"
+  },
+  {
+    "name": "CLARISSE",
+    "notes": [
+      18
+    ],
+    "address": "Marseille",
+    "mention": "très bien"
   },
   {
     "name": "DIEGO HERNANDEZ",
@@ -24,34 +34,28 @@
       15,
       16
     ],
-    "address": "456 Avenida de la Constitución, Mexico City"
+    "address": "456 Avenida de la Constitución, Mexico City",
+    "mention": "bien"
   },
   {
     "name": "EMILY SMITH",
     "notes": [
       16,
       17,
-      15,
-      "1"
+      15
     ],
-    "address": "567 Elm Street, New York"
-  },
-  {
-    "name": "CLARISSE",
-    "notes": [
-      18
-    ],
-    "address": "Marseille"
+    "address": "567 Elm Street, New York",
+    "mention": "très bien"
   },
   {
     "name": "EMMA JOHNSON",
     "notes": [
       16,
       18,
-      17,
-      "14"
+      17
     ],
-    "address": "789 Maple Avenue, Toronto"
+    "address": "789 Maple Avenue, Toronto",
+    "mention": "très bien"
   },
   {
     "name": "JAVIER LOPEZ",
@@ -60,7 +64,8 @@
       16,
       14
     ],
-    "address": "89 Carrer de Mallorca, Barcelona"
+    "address": "89 Carrer de Mallorca, Barcelona",
+    "mention": "bien"
   },
   {
     "name": "JEAN DUPONT",
@@ -69,7 +74,8 @@
       17,
       14
     ],
-    "address": "123 rue de la République, Paris"
+    "address": "123 rue de la République, Paris",
+    "mention": "bien"
   },
   {
     "name": "LUCA FERRARI",
@@ -78,7 +84,8 @@
       15,
       13
     ],
-    "address": "Via Roma 1, Milano"
+    "address": "Via Roma 1, Milano",
+    "mention": "bien"
   },
   {
     "name": "MARIA RODRIGUEZ",
@@ -87,7 +94,8 @@
       20,
       18
     ],
-    "address": "321 Calle de Alcalá, Madrid"
+    "address": "321 Calle de Alcalá, Madrid",
+    "mention": "très bien"
   },
   {
     "name": "SARA KHAN",
@@ -96,14 +104,16 @@
       18,
       16
     ],
-    "address": "34 Lahore Road, Karachi"
+    "address": "34 Lahore Road, Karachi",
+    "mention": "très bien"
   },
   {
     "name": "SONIA",
     "notes": [
       17
     ],
-    "address": "Paris"
+    "address": "Paris",
+    "mention": "très bien"
   },
   {
     "name": "SOPHIE MARTIN",
@@ -112,7 +122,8 @@
       16,
       19
     ],
-    "address": "456 avenue des Lilas, Lyon"
+    "address": "456 avenue des Lilas, Lyon",
+    "mention": "très bien"
   },
   {
     "name": "THOMAS MÜLLER",
@@ -121,6 +132,7 @@
       19,
       17
     ],
-    "address": "Am Kurfürstendamm 1, Berlin"
+    "address": "Am Kurfürstendamm 1, Berlin",
+    "mention": "très bien"
   }
 ]
