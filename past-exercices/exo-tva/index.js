@@ -1,4 +1,4 @@
-import { addPriceTTC } from "./utils.js";
+import { calculatePriceTTC } from "./utils.js";
 
 // Data
 
@@ -10,6 +10,7 @@ const priceHT = [
 
 // Logique
 
-const newPriceHt = addPriceTTC(priceHT, 0.2)
-console.table(newPriceHt)
-
+priceHT.forEach(product => {
+    product.priceTTC = calculatePriceTTC(product.priceHT)
+})
+console.table(priceHT)
