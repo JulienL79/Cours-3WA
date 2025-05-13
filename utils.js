@@ -61,7 +61,11 @@ export const playGame = (maxSet) => {
 
         console.log(`Le gagnant est le joueur ${firstPlayerWin == maxSet ? 1 : 2}`)
         console.log(`Victoire de ${firstPlayerWin == maxSet ? firstPlayerWin : secondPlayerWin} à ${firstPlayerWin == maxSet ? secondPlayerWin : firstPlayerWin}`)
-        return {firstPlayerWin, secondPlayerWin}
+        return {
+            winner : `Joueur ${firstPlayerWin == maxSet ? 1 : 2}`,
+            firstPlayerWin, 
+            secondPlayerWin
+        }
     } catch (err) {
         console.error("Erreur dans le déroulement de la partie: ", err.message)
     }
