@@ -2,7 +2,6 @@ import fs from 'node:fs'
 
 export const readFile = (filePath, isHtml = false) => {
     try {
-        console.log(filePath)
         const content = fs.readFileSync(filePath, 'utf-8')
         const data = isHtml ? content : JSON.parse(content)
 

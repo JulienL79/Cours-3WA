@@ -1,10 +1,5 @@
 [
   {
-    "nom": "Alice",
-    "email": "alice.dupont@example.com",
-    "role": "admin"
-  },
-  {
     "nom": "Jean",
     "email": "jean.martin@example.com",
     "role": "utilisateur"
@@ -15,12 +10,7 @@
     "role": "modérateur"
   },
   {
-    "nom": "Lucas",
-    "email": "lucas.moreau@example.com",
-    "role": "utilisateur"
-  },
-  {
-    "nom": "Emma",
+    "nom": "Emmie",
     "email": "emma.lefevre@example.com",
     "role": "admin"
   },
@@ -28,11 +18,6 @@
     "nom": "Hugo",
     "email": "hugo.bernard@example.com",
     "role": "utilisateur"
-  },
-  {
-    "nom": "Chloé",
-    "email": "chloe.richard@example.com",
-    "role": "modérateur"
   },
   {
     "nom": "Thomas",
@@ -50,13 +35,8 @@
     "role": "utilisateur"
   },
   {
-    "nom": "rgrg",
-    "email": "loiseau.juju@orange.fr",
-    "role": "utilisateur"
-  },
-  {
-    "nom": "cscsc",
-    "email": "new@xaqsx",
+    "nom": "Julien",
+    "email": "loiseau.julien79@gmail.com",
     "role": "utilisateur"
   }
 ]

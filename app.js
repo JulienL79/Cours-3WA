@@ -33,7 +33,12 @@ const server = http.createServer((req, res) => {
             <h1>Liste des utilisateurs : </h1>
             <ul>
                 ${
-                    users.map((user, index) => `<li><a href="/user/${index}">${user.nom}</a></li>`).join("")
+                    users.map((user, index) =>
+                    `
+                    <li>
+                        <a href="/user/${index}">${user.nom}</a>
+                    </li>
+                    `).join("")
                 }
             </ul>
             <a href="/add">Ajouter</a>
@@ -49,7 +54,8 @@ const server = http.createServer((req, res) => {
 	}
 
     if(url === 'add' && req.method === "GET") {
-        const page = readFile(path.join(viewPath, "form.html"), true)
+        const content = readFile(path.join(viewPath, "form.html"), true)
+        const page = renderLayout(content, header, footer)
 
         res.writeHead(200, {
             'Content-type': "text/html"
@@ -81,8 +87,6 @@ const server = http.createServer((req, res) => {
                 return
             }
 
-            console.log(data)
-
             users.push(
                 {
                     nom: data.name,
@@ -91,11 +95,10 @@ const server = http.createServer((req, res) => {
                 }
             )
 
-            console.log(users)
 
             writeFile(dataPath, users)
 
-            res.writeHead(301, {
+            res.writeHead(302, {
                 'Location': "/"
             })
             res.end()
@@ -104,9 +107,8 @@ const server = http.createServer((req, res) => {
         return
     }
 
-    if (url.includes('user')) {
-        const userId = Number(url.replace('user/', ""))
-        console.log(userId)
+    if (url.startsWith('user')) {
+        const userId = Number(url.split("/").pop())
 
         if(isNaN(userId)) {
             res.writeHead(401, {
@@ -116,7 +118,15 @@ const server = http.createServer((req, res) => {
             return
         }
 
-        const table = showTable([users[userId]])
+        const arrayToShow = [
+            {
+                ...users[userId],
+                modifier: `<a href='../update/${userId}'>Modifier</a>`,
+                supprimer: `<a href='../delete/${userId}'>Supprimer</a>`,
+            }
+        ]
+
+        const table = showTable(arrayToShow)
 
         const content = 
         `
@@ -130,6 +140,110 @@ const server = http.createServer((req, res) => {
             'Content-type': "text/html"
         })
         res.end(page)
+        return
+    }
+
+    if(url.startsWith('delete')) {
+        const userId = Number(url.split("/").pop())
+
+        if(isNaN(userId)) {
+            res.writeHead(401, {
+                "Content-type": "text/plain"
+            })
+            res.end("User ID incorrect")
+            return
+        }
+
+        users.splice(userId, 1)
+
+        writeFile(dataPath, users)
+
+        res.writeHead(302, {
+            'Location': "/"
+        })
+        res.end()
+        return
+    }
+
+    if(url.startsWith('update') && req.method === 'GET') {
+        const userId = Number(Number(url.split("/").pop()))
+
+        if(isNaN(userId) || !users[userId]) {
+            res.writeHead(401, {
+                "Content-type": "text/plain"
+            })
+            res.end("User ID incorrect")
+            return
+        }
+
+        const content = 
+        `
+        <h1>Modification d'un utilisateur</h1>
+        <form action="/update/${userId}" method="POST">
+            <input type="text" name="name" placeholder="Nom" value="${users[userId].nom}">
+            <input type="email" name="email" placeholder="ex: jf@gmail.com" value="${users[userId].email}">
+            <input type="submit" value="Modifier">
+        </form>
+        `
+
+        const page = renderLayout(content, header, footer)
+
+        res.writeHead(200, {
+            'Content-type': "text/html"
+        })
+        res.end(page)
+        return
+    }
+
+    if(url.startsWith('update') && req.method === 'POST') {
+        const userId = Number(Number(url.split("/").pop()))
+
+        if(isNaN(userId) || !users[userId]) {
+            res.writeHead(401, {
+                "Content-type": "text/plain"
+            })
+            res.end("User ID incorrect")
+            return
+        }
+
+        let body = ""
+
+        req.on('data', (chunk) => {
+            body += chunk.toString()
+        })
+
+        req.on('end', () => {
+
+            const data = querystring.parse(body)
+
+            if(!data.name || data.name.trim() === "") {
+                res.writeHead(401, {'Content-type': 'text/plain'})
+                res.end("Le champ nom ne peut pas être vide")
+                return
+            }
+
+            if(!data.email || data.email.trim() === "") {
+                res.writeHead(401, {'Content-type': 'text/plain'})
+                res.end("Le champ email ne peut pas être vide")
+                return
+            }
+
+            users[userId] = (
+                {
+                    ...users[userId],
+                    nom: data.name,
+                    email: data.email,
+                }
+            )
+
+            writeFile(dataPath, users)
+
+            res.writeHead(302, {
+                'Location': "/"
+            })
+            res.end()
+            return
+        })
         return
     }
 	
