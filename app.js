@@ -1,64 +1,108 @@
-// import http from 'node:http'
+import http from 'node:http'
 import path from 'node:path'
 import pug from "pug"
+import fs from 'node:fs'
+import { fileURLToPath } from 'node:url';
 
-const dirname = import.meta.dirname
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 const viewPath = path.join(dirname, "view")
+const assetsPath = path.join(dirname, "assets")
 
-// const server = http.createServer((req, res) => {
-//     const url = req.url.replace("/", "")
+const menuItems = [
+    { path: '/', title: 'Home', isActive: true },
+    { path: '/about-me', title: 'About', isActive: false },
+    { path: '/references', title: 'References', isActive: false },
+    { path: '/contact-me', title: 'Contact', isActive: false },
+];
 
-//     if (url === "favicon.ico") {
-//         res.writeHead(200, {
-//             "Content-type": "image/x-icon"
-//         })
-//         res.end()
-//         return;
-// 	}
+const contactInputs = [
+    { name: "firstName", type: "text", label: "Prénom"},
+    { name: "lastName", type: "text", label: "Nom" },
+    { name: "email", type: "email", label: "Email" },
+    { name: "content", type: "textarea", label: "Message" },
+]
 
-//     if(url === "/user") {
-//         const loggedUser = {
-//             name: {
-//                 first: 'Jean',
-//                 last: 'Dupont',
-//             },
-//             age: 36,
-//             birthdate: new Date('1986-04-18'),
-//             location: {
-//                 zipcode: '77420',
-//                 city: 'Champs-sur-Marne',
-//             },
-//             isAdmin: true
-//         };
+const server = http.createServer((req, res) => {
+    const url = req.url.replace("/", "")
 
-//         const template = (users) => pug.compileFile(path.join(viewPath, "home.pug"), {users}, {pretty: true})
-//         console.log(template([loggedUser]))
+    
+    const updatedMenu = menuItems.map(item => ({
+        ...item,
+        isActive: item.path === `/${url}`
+    }))
 
-//         res.writeHead(200, {
-//             'Content-type': "text/html"
-//         })
-//         res.end()
-//     }
-// })
+    if (url === "favicon.ico") {
+        res.writeHead(200, {
+            "Content-type": "image/x-icon"
+        })
+        res.end()
+        return;
+	}
 
-// server.listen(8000, "localhost", () => {
-// 	console.log(`Server running on http://localhost:8000`)
-// })
+    if (url.startsWith("style")) {
+        const stylesheetName = url.split("/").pop()
+        const stylesheet = fs.readFileSync(path.join(assetsPath, stylesheetName))
 
-const loggedUser = {
-            name: {
-                first: 'Jean',
-                last: 'Dupont',
-            },
-            age: 36,
-            birthdate: new Date('1986-04-18'),
-            location: {
-                zipcode: '77420',
-                city: 'Champs-sur-Marne',
-            },
-            isAdmin: true
-        };
+        res.writeHead(200, {
+            "Content-type": "text/css"
+        })
+        res.end(stylesheet)
+        return;
+	}
+
+    if(url === "") {
+        res.writeHead(200, {
+            "Content-type": "text/html"
+        })
+
+        pug.renderFile(path.join(viewPath, "pages/home.pug"), {menuItems},(err, data) => {
+            if(err) throw err
+            res.end(data)
+        })
+        return
+    }
+
+    if(url === "contact-me") {
+        res.writeHead(200, {
+            "Content-type": "text/html"
+        })
+
+        pug.renderFile(path.join(viewPath, "pages/contact.pug"), {menuItems : updatedMenu, inputs: contactInputs},(err, data) => {
+            if(err) throw err
+            res.end(data)
+        })
 
 
-const compileFile =  pug.compileFile(path.join(viewPath, "home.pug"), {pretty: true})
-console.log(compileFile({users : [loggedUser]}))
+        return
+    }
+
+    if(url === "about-me") {
+        res.writeHead(200, {
+            "Content-type": "text/html"
+        })
+
+        pug.renderFile(path.join(viewPath, "pages/about.pug"), {menuItems : updatedMenu},(err, data) => {
+            if(err) throw err
+            res.end(data)
+        })
+        return
+    }
+
+        if(url === "references") {
+        res.writeHead(200, {
+            "Content-type": "text/html"
+        })
+
+        pug.renderFile(path.join(viewPath, "pages/reference.pug"), {menuItems : updatedMenu},(err, data) => {
+            if(err) throw err
+            res.end(data)
+        })
+        return
+    }
+})
+
+server.listen(8000, "localhost", () => {
+	console.log(`Server running on http://localhost:8000`)
+})
+

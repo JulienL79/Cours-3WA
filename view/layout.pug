@@ -1,0 +1,19 @@
+doctype html 
+html(lang="fr")
+    head 
+        meta(charset="UTF-8")
+        title Mon site PUG
+        block stylesheet
+
+    body
+        header 
+            include ./components/menu.pug
+
+        main 
+            block content
+
+        footer 
+            include ./components/footer.pug
+
+        block script
+
