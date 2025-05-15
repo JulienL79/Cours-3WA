@@ -1,0 +1,8 @@
+each user in users
+    - const birthdate = user.birthdate.toLocaleDateString('fr-FR')
+    div.user-card
+        h4. 
+            #{user.name.first} #{user.name.last} <small>(#{user.age})</small>
+        p Né le #{birthDate}
+        p Vit à <strong>#{user.location.city}, #{user.location.zipcode}</strong>
+        span(class= user.isAdmin ? 'badge-admin' : 'badge-user')= user.isAdmin ? 'Est Administrateur' : 'Est Utilisateur'
