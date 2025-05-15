@@ -1,9 +1,28 @@
 extends ../layout.pug
 
 block stylesheet 
-    link(rel="stylesheet" href="/style/common.css")
+    link(rel="stylesheet" href="/style/home.css")
 
 block content
-    h1 Accueil
-    p.
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde nisi optio eaque ducimus sint odit officiis deleniti pariatur incidunt fuga reiciendis, exercitationem, dignissimos doloribus mollitia maiores possimus perferendis obcaecati sapiente vel soluta, nihil expedita molestias explicabo. Similique dolores voluptas fuga, deleniti totam illum minima amet optio cum consequatur quos maxime.
+    if showToast
+        div.toast#toast
+            | ✅ Votre message a bien été envoyé !
+    div.container
+        h1 Julien LOISEAU
+        p Bienvenue sur mon portfolio
+        p Contactez moi à l'adresse email suivants: 
+        output#generate-email
+
+block script
+    script.
+        (function preventSpam() {
+            const b64encodedEmail = 'anVsaWVuLmxvaXNlYXU3OUBnbWFpbC5jb20';
+            document.getElementById('generate-email').textContent = atob(b64encodedEmail);
+        })();
+    script.
+        const toast = document.getElementById('toast');
+        if (toast) {
+            setTimeout(() => {
+                toast.style.display = "none";
+            }, 5000);
+        }

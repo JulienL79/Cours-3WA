@@ -1,3 +1,12 @@
-p {
-    border: 1px solid black
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4BB543;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    font-weight: bold;
+    z-index: 999;
 }

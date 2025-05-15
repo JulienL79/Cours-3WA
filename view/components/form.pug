@@ -13,7 +13,7 @@ mixin submitButton(label)
   fieldset
     input(type="submit" value=label)
 
-form
+form(action=page method="POST")
     each input in inputs 
         +inputForm(input)
     +submitButton("Envoyer")
