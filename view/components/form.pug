@@ -1,19 +1,19 @@
 block stylesheet
     link(rel="stylesheet" href="/style/form.css")
 
-mixin inputForm({ name, type, label})
-    fieldset
+mixin inputForm({ name, type, label, value})
+    div.form-group
         label(for=name)= label
         if type === "textarea"
-            textarea(id=name name=name)
+            textarea(id=name name=name value= value ? value : null)
         else
-            input(id=name type=type name=name)
+            input(id=name type=type name=name value= value ? value : null)
 
 mixin submitButton(label)
-  fieldset
-    input(type="submit" value=label)
+    input(type="submit" value=label class="button")
 
 form(action=page method="POST")
-    each input in inputs 
-        +inputForm(input)
-    +submitButton("Envoyer")
+    fieldset
+        each input in inputs 
+            +inputForm(input)
+        +submitButton("Valider")

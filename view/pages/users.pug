@@ -1,0 +1,40 @@
+extends ../layout.pug
+
+block stylesheet 
+    link(rel="stylesheet" href="/style/users.css")
+
+block content
+    div.main-container
+        div.alert-container
+            if showToast
+                div.toast#toast
+                    | ✅ #{showToast} !
+            if showError 
+                div.error#error
+                    | ❌ #{showError} !
+
+        div.content-container
+            h1 Liste des Etudiants
+            table
+                thead
+                    tr
+                        th Nom
+                        th Date de naissance
+                        th Action 
+                tbody 
+                    each student in students 
+                        tr 
+                            td= student.name
+                            td= student.birthFr
+                            td
+                                a.button.secondary(href=`/update/${student.id}`) Modifier
+                                a.button.danger(href=`/delete/${student.id}`) Supprimer
+
+block script
+    script.
+        const alert = document.getElementById('toast') || document.getElementById('error');
+        if (alert) {
+            setTimeout(() => {
+                alert.style.display = "none";
+            }, 5000);
+        }

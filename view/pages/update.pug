@@ -1,0 +1,27 @@
+extends ../layout.pug
+
+block stylesheet 
+    link(rel="stylesheet" href="/style/update.css")
+
+block content
+    div.main-container
+        div.alert-container
+            if showToast
+                div.toast#toast
+                    | ✅ #{showToast} !
+            if showError 
+                div.error#error
+                    | ❌ #{showError} !
+            
+        div.content-container
+            h1 Modification de l'étudiant #{student.name}
+            include ../components/form
+
+block script
+    script.
+        const alert = document.getElementById('toast') || document.getElementById('error');
+        if (alert) {
+            setTimeout(() => {
+                alert.style.display = "none";
+            }, 5000);
+        }

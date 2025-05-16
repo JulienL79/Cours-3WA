@@ -1,9 +1,6 @@
-block stylesheet
-    link(rel="stylesheet" href="/style/menu.css")
-
 mixin menuItem({path, title, isActive})
-    li: a(href=path class= isActive ? "nav-active" : "")= title
+    li: a(href=path class= isActive ? "active" : "")= title
 
-nav: ul 
+nav: ul.navbar 
     each item in menuItems 
         +menuItem(item)

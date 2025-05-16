@@ -1,0 +1,19 @@
+block stylesheet
+    link(rel="stylesheet" href="/style/form.css")
+
+mixin inputForm({ name, type, label})
+    fieldset
+        label(for=name)= label
+        if type === "textarea"
+            textarea(id=name name=name)
+        else
+            input(id=name type=type name=name)
+
+mixin submitButton(label)
+  fieldset
+    input(type="submit" value=label)
+
+form(action=page method="POST")
+    each input in inputs 
+        +inputForm(input)
+    +submitButton("Envoyer")
